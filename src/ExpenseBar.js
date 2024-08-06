@@ -25,10 +25,10 @@ export default function BarChartComponent({ expenses }) {
             <YAxis
               type="category"
               width={100}
-              dataKey="name"
+              dataKey="title"
               axisLine={false}
             />
-            <Bar dataKey="value" fill="#8884d8" barSize={25} />
+            <Bar dataKey="price" fill="#8884d8" barSize={25} />
           </BarChart>
         </ResponsiveContainer>
       </div>
