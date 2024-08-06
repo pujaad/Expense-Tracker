@@ -3,7 +3,7 @@ import WalletBalance from "./components/WalletBalance";
 import Expenses from "./Expenses";
 import ExpenseList from "./components/ExpenseList";
 import ExpensePieChart from './PieChart';
-// import ExpenseBarChart from "./ExpenseBar"
+import ExpenseBarChart from "./ExpenseBar"
 
 function App() {
   const [walletBalance, setWalletBalance] = useState(5000);
@@ -21,7 +21,9 @@ function App() {
   }, []);
 
   useEffect(() => {
-    localStorage.setItem("expenses", JSON.stringify(expenses));
+    if (expenses.length) {
+      localStorage.setItem("expenses", JSON.stringify(expenses))
+    };
   }, [expenses]);
 
   const updateBalance = () => {
@@ -45,22 +47,20 @@ function App() {
       expense.id === updatedExpense.id ? updatedExpense : expense
     );
     setExpenses(updatedExpenses);
-    localStorage.setItem("expenses",JSON.stringify(updatedExpense))
-
   };
-  
+
   return (
     <>
       <WalletBalance balance={walletBalance} updateBalance={updateBalance} />
-      <Expenses 
-        expenses={expenses} 
-        setExpenses={setExpenses} 
-        addExpense={addExpense} 
-        walletBalance={walletBalance} 
+      <Expenses
+        expenses={expenses}
+        setExpenses={setExpenses}
+        addExpense={addExpense}
+        walletBalance={walletBalance}
       />
       <ExpenseList expenses={expenses} updateExpenses={updateExpense} />
-      <ExpensePieChart expenses={expenses}/>
-      {/* <ExpenseBarChart expenses={expenses}/> */}
+      <ExpensePieChart expenses={expenses} />
+      <ExpenseBarChart expenses={expenses} />
     </>
   );
 }
