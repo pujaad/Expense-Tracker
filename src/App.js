@@ -68,11 +68,11 @@ function App() {
         </div>
       
       
-        <ExpenseList expenses={expenses} updateExpenses={updateExpense} />
+        <ExpenseList expenses={expenses} updateExpenses={updateExpense} setExpenses={setExpenses}/>
         <ExpenseBarChart expenses={expenses} />
       
       
-      </>
+      </> 
     
   );
 }
