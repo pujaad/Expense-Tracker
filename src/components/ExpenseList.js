@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Modal from 'react-modal';
 import { FaEdit, FaTrash } from 'react-icons/fa';
-
+import Pagination from './Pagination';
 
 Modal.setAppElement('#root');
 
@@ -9,6 +9,8 @@ Modal.setAppElement('#root');
 const ExpenseList=({expenses,updateExpenses})=>{
     const [modalIsOpen, setModalIsOpen] = useState(false);
   const [editingExpense, setEditingExpense] = useState(null);
+  const[currentPage,setCurrentPage]=useState(1);
+  const itemsPerPage=10;
 
     const openModal = (expense) => {
         setEditingExpense({...expense});
@@ -34,18 +36,34 @@ const ExpenseList=({expenses,updateExpenses})=>{
        
         updateExpenses(expenses.filter(expense => expense.id !== id));
     };
+    const totalPage = Math.ceil(expenses.length / itemsPerPage);
+    const currentExpenses = expenses.slice(
+      (currentPage - 1) * itemsPerPage,
+      currentPage * itemsPerPage
+  );
+  const onPageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+};
+
     return(
         <>
+        <div style={{display:"flex",alignItems:"center",justifyContent:"center"}}>
         <h1>Recent Transactions</h1>
-        <ul>
-        {expenses.map(expense=>(
-          <li key = {expense.id}>
-            {expense.title} - ₹{expense.price}-{expense.date}
-            <button onClick={() => openModal(expense)}><FaEdit /></button>
-             <button onClick={() => handleDelete(expense.id)}><FaTrash /></button>
-          </li>
-        ))}
-        </ul>
+        </div>
+        
+        {currentExpenses.map(expense => (
+    
+      <div key={expense.id} style={{ display: "flex", alignItems: "center",gap:"10px",padding:"40px",margin:"20 20 20 20",border:"5px solid black"}}>  
+        <p>{expense.title} - ₹{expense.price}</p>
+        
+        <button onClick={() => openModal(expense)}><FaEdit /></button>
+        <button onClick={() => handleDelete(expense.id)}><FaTrash /></button>
+        
+      </div>
+  
+  ))}
+        <Pagination currentPage={currentPage} totalPage={totalPage} onPageChange={onPageChange}/>
+        
         <Modal 
         isOpen={modalIsOpen}
                 onRequestClose={closeModal}

@@ -1,4 +1,3 @@
-
 import React, { PureComponent } from "react";
 import {
   BarChart,
@@ -19,16 +18,16 @@ export default function BarChartComponent({ expenses }) {
       <h2>Top Expenses</h2>
 
       <div>
-        <ResponsiveContainer width="100%" height={280}>
+        <ResponsiveContainer width="100%" height={250}>
           <BarChart data={expenses} layout="vertical">
             <XAxis type="number" axisLine={false} display="none" />
             <YAxis
               type="category"
               width={100}
-              dataKey="name"
+              dataKey="title"
               axisLine={false}
             />
-            <Bar dataKey="value" fill="#8884d8" barSize={25} />
+            <Bar dataKey="price" fill="#8884d8" barSize={25} />
           </BarChart>
         </ResponsiveContainer>
       </div>

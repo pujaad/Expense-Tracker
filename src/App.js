@@ -3,7 +3,7 @@ import WalletBalance from "./components/WalletBalance";
 import Expenses from "./Expenses";
 import ExpenseList from "./components/ExpenseList";
 import ExpensePieChart from './PieChart';
-// import ExpenseBarChart from "./ExpenseBar"
+import ExpenseBarChart from "./ExpenseBar"
 
 function App() {
   const [walletBalance, setWalletBalance] = useState(5000);
@@ -21,7 +21,9 @@ function App() {
   }, []);
 
   useEffect(() => {
-    localStorage.setItem("expenses", JSON.stringify(expenses));
+    if (expenses.length) {
+      localStorage.setItem("expenses", JSON.stringify(expenses))
+    };
   }, [expenses]);
 
   const updateBalance = () => {
@@ -45,24 +47,33 @@ function App() {
       expense.id === updatedExpense.id ? updatedExpense : expense
     );
     setExpenses(updatedExpenses);
-    localStorage.setItem("expenses",JSON.stringify(updatedExpense))
-
   };
-  
+
   return (
     <>
-      <WalletBalance balance={walletBalance} updateBalance={updateBalance} />
-      <Expenses 
-        expenses={expenses} 
-        setExpenses={setExpenses} 
-        addExpense={addExpense} 
-        walletBalance={walletBalance} 
-      />
-      <ExpenseList expenses={expenses} updateExpenses={updateExpense} />
-      <ExpensePieChart expenses={expenses}/>
-      {/* <ExpenseBarChart expenses={expenses}/> */}
-    </>
+    <div style={{display:"flex",alignItems:"center",justifyContent:"center",backgroundColor:"grey"}}>
+    <h1>Expense Tracker</h1>
+    </div>
+    <div style={{ display: "flex", justifyContent: "center", padding: "10px",border:"5px solid black",width:"50vw",height:"50vh",alignItems:"center",margin:"10px"}}>
+        <WalletBalance balance={walletBalance} updateBalance={updateBalance} />
+
+        
+          <Expenses
+            expenses={expenses}
+            setExpenses={setExpenses}
+            addExpense={addExpense}
+            walletBalance={walletBalance}
+          />
+          <ExpensePieChart expenses={expenses} />
+        </div>
+      
+      
+        <ExpenseList expenses={expenses} updateExpenses={updateExpense} />
+        <ExpenseBarChart expenses={expenses} />
+      
+      
+      </>
+    
   );
 }
-
 export default App;
